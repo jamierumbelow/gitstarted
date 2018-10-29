@@ -25,6 +25,10 @@ import _ from "lodash"
 
 export default {
   props: {
+    searchQuery: {
+      type: String,
+      default: ''
+    },
     language: {
       type: String,
       default: 'all'
@@ -53,6 +57,7 @@ export default {
       if (this.language !== 'all') {
         this.$algolia.addFacetRefinement('language', this.language)
       }
+      this.$algolia.setQuery(this.searchQuery)
       this.$algolia.search()
     },
     updateLanguages (results) {
@@ -88,6 +93,9 @@ export default {
   },
   watch: {
     language () {
+      this.reload()
+    },
+    searchQuery () {
       this.reload()
     }
   }

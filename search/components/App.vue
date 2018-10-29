@@ -8,9 +8,11 @@
     <Filters
       :language="language"
       :languages="languages"
-      @setLanguage="setLanguage" />
+      @setLanguage="setLanguage"
+      @updateSearchQuery="updateSearchQuery" />
     <Board
       :language="language"
+      :search-query="searchQuery"
       @updateLanguages="updateLanguages" />
   </div>
 </template>
@@ -22,6 +24,7 @@ import Filters from "components/Filters.vue"
 export default {
   data () {
     return {
+      searchQuery: '',
       language: 'all',
       languages: []
     }
@@ -33,6 +36,9 @@ export default {
   methods: {
     setLanguage (language) {
       this.language = language
+    },
+    updateSearchQuery (searchQuery) {
+      this.searchQuery = searchQuery
     },
     updateLanguages (languages) {
       this.languages = languages

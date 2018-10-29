@@ -1,32 +1,30 @@
 <template>
-  <div class="panel panel-outer">
-    <div class="panel-inner">
-      <!-- <div class="panel-head">
-        <p class="panel-title">Panel Example</p>
-      </div>
-      <div class="panel-body">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit ipsam omnis repellat, dolor incidunt, illo recusandae? Ducimus magnam, illo modi eum amet ratione numquam debitis voluptatem! Possimus, aliquid, doloribus. Commodi assumenda facilis nemo delectus eos, doloremque quasi, harum quidem molestias ex quod facere alias temporibus veritatis qui. Eligendi impedit eum assumenda iure dolorum adipisci doloribus.</p>
-      </div> -->
-      <!-- <h5>Language</h5> -->
-      <div class="panel-footer filters">
-        <template v-if="!isTinyScreen">
-          <button :class="(language === 'all') ? 'button-primary' : 'button-primary-text'" @click="$emit('setLanguage', 'all')">All</button>
-          <button :class="(language === l) ? 'button-primary' : 'button-primary-text'" v-for="l in buttonLanguages" @click="$emit('setLanguage', l)">{{ l }}</button>
-        </template>
+  <aside class="filter-outer">
+    <div class="panel panel-outer">
+      <div class="panel-inner">
+        <div class="panel-footer filters">
+          <template v-if="!isTinyScreen">
+            <button :class="(language === 'all') ? 'button-primary' : 'button-primary-text'" @click="$emit('setLanguage', 'all')">All</button>
+            <button :class="(language === l) ? 'button-primary' : 'button-primary-text'" v-for="l in buttonLanguages" @click="$emit('setLanguage', l)">{{ l }}</button>
+          </template>
 
-        <select @change="selectLanguageFromDropdown">
-          <template v-if="isTinyScreen">
-            <option disabled selected>- filter by language -</option>
-            <option :value="l" v-for="l in languages" :selected="language === l">{{ l }}</option>
-          </template>
-          <template v-else>
-            <option disabled selected>- more -</option>
-            <option :value="l" v-for="l in dropdownLanguages" :selected="language === l">{{ l }}</option>
-          </template>
-        </select>
+          <select @change="selectLanguageFromDropdown">
+            <template v-if="isTinyScreen">
+              <option disabled selected>- filter by language -</option>
+              <option :value="l" v-for="l in languages" :selected="language === l">{{ l }}</option>
+            </template>
+            <template v-else>
+              <option disabled selected>- more -</option>
+              <option :value="l" v-for="l in dropdownLanguages" :selected="language === l">{{ l }}</option>
+            </template>
+          </select>
+        </div>
       </div>
     </div>
-  </div>
+    <div class="search-filter">
+      <input type="text" placeholder="Type to Search..." v-model="searchQuery">
+    </div>
+  </aside>
 </template>
 
 <script>
@@ -43,6 +41,7 @@ export default {
   },
   data () {
     return {
+      searchQuery: '',
       windowWidth: window.innerWidth,
       numButtonLanguages: 9
     }
@@ -81,6 +80,11 @@ export default {
     isTinyScreen () {
       return this.windowWidth <= 400
     }
+  },
+  watch: {
+    searchQuery () {
+      this.$emit('updateSearchQuery', this.searchQuery)
+    }
   }
 }
 </script>
@@ -92,6 +96,13 @@ export default {
     width: fit-content;
     display: inline;
   }
+}
+
+.search-filter {
+  padding: 0 15px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @media screen and (max-width: 401px) {
