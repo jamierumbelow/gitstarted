@@ -6,9 +6,13 @@ const client = algoliasearch(process.env.ALGOLIA_APP_ID, process.env.ALGOLIA_SEC
 const reposIndex = client.initIndex(process.env.INDEX_NAME)
 
 const Algolia = {
+  clear () {
+    return reposIndex.clearIndex()
+  },
+
   update (records) {
     const chunks = _.chunk(records, 200)
-    const promises = _.map(chunks, (chunk) => reposIndex.updateObjects(chunk))
+    const promises = _.map(chunks, (chunk) => reposIndex.addObjects(chunk))
 
     return Promise.all(promises)
   },

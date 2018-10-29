@@ -53,12 +53,8 @@ export default {
     updateLanguages (results) {
       const languageFacet = _.find(results.facets, (facet) => facet.name === 'language')
       const list = _.get(languageFacet, 'data')
-      const languageList = Object.keys(list)
 
-      this.$emit('updateLanguages', _.reduce(languageList, (acc, language) => {
-        acc[language] = language
-        return acc
-      }, {}))
+      this.$emit('updateLanguages', Object.keys(list))
     }
   },
   computed: {

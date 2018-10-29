@@ -23,7 +23,7 @@ export default {
   data () {
     return {
       language: 'all',
-      languages: {}
+      languages: []
     }
   },
   components: {
