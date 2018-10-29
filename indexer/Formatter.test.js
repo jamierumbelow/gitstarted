@@ -18,6 +18,7 @@ describe('Formatter', () => {
     expect(vue.topics).toBe('framework,frontend,javascript,vue')
     expect(vue.description).toBe('🖖 A progressive, incrementally-adoptable JavaScript framework for building UI on the web.')
     expect(vue.open_issues).toBe(271)
+    expect(vue.stars).toBe(117568)
     expect(vue.last_updated_at).toBe('2018-10-26T16:28:48Z')
 
     expect(react.objectId).toBe(10270250)
@@ -26,6 +27,7 @@ describe('Formatter', () => {
     expect(react.language).toBe('javascript')
     expect(react.description).toBe('A declarative, efficient, and flexible JavaScript library for building user interfaces.')
     expect(react.open_issues).toBe(456)
+    expect(react.stars).toBe(114217)
     expect(react.topics).toBe('declarative,frontend,javascript,library,react,ui')
     expect(react.last_updated_at).toBe('2018-10-29T06:36:59Z')
   })

@@ -11,6 +11,7 @@ const FormatRow = (row) => {
     topics: row.topics ? row.topics.join(',') : null,
     description: row.description,
     open_issues: row.open_issues,
+    stars: row.stargazers_count,
     last_updated_at: row.pushed_at
   }
 }
