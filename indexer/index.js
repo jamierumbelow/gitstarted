@@ -5,8 +5,11 @@
  *          GitHub API, formats and passes into Algolia.
  */
 
+require('dotenv').config()
+
 const fs = require('fs')
 const GitHub = require('./GitHub.js')
+const Formatter = require('./Formatter.js')
 
 const REPO_CACHE = './cache/repositories.json'
 
@@ -22,7 +25,16 @@ async function main () {
     console.log(`Done! Fetched ${records.length} records and wrote them to ./cache/repositories.json`)
   }
 
-  console.log(`Records to index: ${records.length}`)
+  const formattedRecords = Formatter(records)
+
+  console.log(`Clearing index`)
+  await Algolia.clear()
+  console.log(`Index cleared!`)
+
+  console.log(`Rebuilding index`)
+  await Algolia.build(formattedRecords)
+  console.log(`Index built!`)
+  console.log(`All done!`)
 }
 
 main()
