@@ -1,17 +1,17 @@
 import Vue from "vue"
 import App from "components/App.vue"
+import Algolia from "plugins/algolia"
+
+Vue.use(Algolia)
 
 const components = {
   App
 }
 
-console.log('yo')
-
 const app = new Vue({
   el: '#app',
   components,
   render: (h) => {
-    console.log('yo')
     return h(App)
   }
 })

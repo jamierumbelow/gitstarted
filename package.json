@@ -8,6 +8,7 @@
     "css-loader": "^1.0.0",
     "jest": "^23.6.0",
     "node-fetch": "^2.2.0",
+    "node-sass": "^4.9.4",
     "sass-loader": "^7.1.0",
     "vue-loader": "^15.4.2",
     "vue-style-loader": "^4.1.2",
@@ -17,13 +18,15 @@
   },
   "scripts": {
     "test": "jest",
-    "watch": "webpack --watch",
-    "build": "webpack --mode production --progress"
+    "watch": "NODE_ENV=development webpack --watch",
+    "build": "NODE_ENV=production webpack --mode production --progress"
   },
   "dependencies": {
     "algoliasearch": "^3.30.0",
+    "algoliasearch-helper": "^2.26.1",
     "dotenv": "^6.1.0",
     "lodash": "^4.17.11",
+    "mustard-ui": "^0.0.8",
     "parse-link-header": "^1.0.1",
     "vue": "^2.5.17"
   }

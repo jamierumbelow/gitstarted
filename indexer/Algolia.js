@@ -2,8 +2,8 @@
 
 const _ = require('lodash')
 const algoliasearch = require('algoliasearch')
-const client = algoliasearch(process.env.ALGOLIA_KEY, process.env.ALGOLIA_SECRET)
-const reposIndex = client.initIndex('repos')
+const client = algoliasearch(process.env.ALGOLIA_APP_ID, process.env.ALGOLIA_SECRET)
+const reposIndex = client.initIndex(process.env.INDEX_NAME)
 
 const Algolia = {
   update (records) {

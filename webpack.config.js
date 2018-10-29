@@ -1,4 +1,7 @@
+require('dotenv').config()
+
 const path = require('path')
+const webpack = require('webpack')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development'
@@ -33,10 +36,11 @@ module.exports = {
   resolve: {
     alias: {
       components: path.resolve(__dirname, 'search/components'),
+      plugins: path.resolve(__dirname, 'search/plugins'),
       'vue$': 'vue/dist/vue.esm.js'
     },
   },
-  plugins: [new VueLoaderPlugin()],
+  plugins: [new VueLoaderPlugin(), new webpack.EnvironmentPlugin(['NODE_ENV', 'INDEX_NAME', 'ALGOLIA_APP_ID', 'ALGOLIA_API_KEY'])],
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'application.js'
