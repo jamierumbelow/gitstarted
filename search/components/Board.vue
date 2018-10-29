@@ -90,7 +90,7 @@ export default {
       this.reload()
     },
     clickCard (url) {
-      window.open(url, '_blank').open()
+      window.open(this.issuesUrl(url), '_blank').open()
     },
     issuesClass (issuesCount) {
       if (issuesCount > 1000) {
@@ -98,6 +98,9 @@ export default {
       } else if (issuesCount > 500) {
         return 'medium'
       }
+    },
+    issuesUrl (baseUrl) {
+      return `${baseUrl}/issues?q=is%3Aopen+is%3Aissue+label%3A"good+first+issue"`
     }
   },
   computed: {
