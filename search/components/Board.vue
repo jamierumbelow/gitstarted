@@ -28,33 +28,35 @@ export default {
   },
   data () {
     return {
+      hasLanguages: false,
       hits: []
     }
   },
   mounted () {
     this.$algolia.on('result', (results) => {
       this.hits = results.hits
-      this.updateLanguages(results)
+
+      if (!this.hasLanguages) {
+        this.updateLanguages(results)
+      }
     })
 
     this.reload()
   },
   methods: {
     reload () {
-      if (_.get(this.searchParameters, 'facetName')) {
-        this.$algolia.searchForFacetValues(
-          this.searchParameters.facetName,
-          this.searchParameters.facetQuery
-        )
-      } else {
-        this.$algolia.search()
+      this.$algolia.clearRefinements()
+      if (this.language !== 'all') {
+        this.$algolia.addFacetRefinement('language', this.language)
       }
+      this.$algolia.search()
     },
     updateLanguages (results) {
       const languageFacet = _.find(results.facets, (facet) => facet.name === 'language')
       const list = _.get(languageFacet, 'data')
 
       this.$emit('updateLanguages', Object.keys(list))
+      this.hasLanguages = true
     }
   },
   computed: {

@@ -9,10 +9,20 @@
       </div> -->
       <!-- <h5>Language</h5> -->
       <div class="panel-footer filters">
-        <button :class="(language === 'all') ? 'button-primary' : 'button-primary-text'" @click="$emit('setLanguage', 'all')">All</button>
-        <button :class="(language === l) ? 'button-primary' : 'button-primary-text'" v-for="l in buttonLanguages" @click="$emit('setLanguage', l)">{{ l }}</button>
+        <template v-if="!isTinyScreen">
+          <button :class="(language === 'all') ? 'button-primary' : 'button-primary-text'" @click="$emit('setLanguage', 'all')">All</button>
+          <button :class="(language === l) ? 'button-primary' : 'button-primary-text'" v-for="l in buttonLanguages" @click="$emit('setLanguage', l)">{{ l }}</button>
+        </template>
+
         <select @change="selectLanguageFromDropdown">
-          <option :value="l" v-for="l in dropdownLanguages" :selected="language === l">{{ l }}</option>
+          <template v-if="isTinyScreen">
+            <option disabled selected>- filter by language -</option>
+            <option :value="l" v-for="l in languages" :selected="language === l">{{ l }}</option>
+          </template>
+          <template v-else>
+            <option disabled selected>- more -</option>
+            <option :value="l" v-for="l in dropdownLanguages" :selected="language === l">{{ l }}</option>
+          </template>
         </select>
       </div>
     </div>
@@ -20,8 +30,6 @@
 </template>
 
 <script>
-const NUM_BUTTON_LANGUAGES = 9
-
 export default {
   props: {
     language: {
@@ -33,18 +41,45 @@ export default {
       default: () => []
     }
   },
+  data () {
+    return {
+      windowWidth: window.innerWidth,
+      numButtonLanguages: 9
+    }
+  },
+  created () {
+    window.addEventListener("resize", this.handleResize)
+  },
+  destroyed () {
+    window.removeEventListener("resize", this.handleResize)
+  },
   methods: {
     selectLanguageFromDropdown (event) {
       event.preventDefault()
       this.$emit('setLanguage', event.target.value)
+    },
+    handleResize () {
+      this.windowWidth = window.innerWidth
+
+      if (this.isSmallScreen) {
+        this.numButtonLanguages = 5
+      } else {
+        this.numButtonLanguages = 9
+      }
     }
   },
   computed: {
     buttonLanguages () {
-      return this.languages.slice(0, NUM_BUTTON_LANGUAGES)
+      return this.languages.slice(0, this.numButtonLanguages)
     },
     dropdownLanguages () {
-      return this.languages.slice(NUM_BUTTON_LANGUAGES)
+      return this.languages.slice(this.numButtonLanguages)
+    },
+    isSmallScreen () {
+      return this.windowWidth <= 760
+    },
+    isTinyScreen () {
+      return this.windowWidth <= 400
     }
   }
 }
@@ -56,6 +91,17 @@ export default {
     text-transform: uppercase;
     width: fit-content;
     display: inline;
+  }
+}
+
+@media screen and (max-width: 401px) {
+  .filters {
+    width: 100%;
+
+    select {
+      width: 100%;
+      display: block;
+    }
   }
 }
 </style>

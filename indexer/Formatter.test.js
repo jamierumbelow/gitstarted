@@ -11,7 +11,7 @@ describe('Formatter', () => {
     const vue = results[0]
     const react = results[1]
 
-    expect(vue.objectId).toBe(11730342)
+    expect(vue.objectID).toBe(11730342)
     expect(vue.name).toBe('vuejs/vue')
     expect(vue.url).toBe('https://github.com/vuejs/vue')
     expect(vue.language).toBe('javascript')
@@ -21,7 +21,7 @@ describe('Formatter', () => {
     expect(vue.stars).toBe(117568)
     expect(vue.last_updated_at).toBe('2018-10-26T16:28:48Z')
 
-    expect(react.objectId).toBe(10270250)
+    expect(react.objectID).toBe(10270250)
     expect(react.name).toBe('facebook/react')
     expect(react.url).toBe('https://github.com/facebook/react')
     expect(react.language).toBe('javascript')

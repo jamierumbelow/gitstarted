@@ -33,7 +33,6 @@ async function main () {
   console.log(`Index configured!`)
 
   console.log(`Rebuilding index`)
-  await Algolia.clear()
   await Algolia.update(formattedRecords)
   console.log(`Index built!`)
 

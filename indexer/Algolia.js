@@ -12,7 +12,7 @@ const Algolia = {
 
   update (records) {
     const chunks = _.chunk(records, 200)
-    const promises = _.map(chunks, (chunk) => reposIndex.addObjects(chunk))
+    const promises = _.map(chunks, (chunk) => reposIndex.saveObjects(chunk))
 
     return Promise.all(promises)
   },

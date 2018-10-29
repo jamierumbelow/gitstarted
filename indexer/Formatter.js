@@ -4,7 +4,7 @@ const _ = require('lodash')
 
 const FormatRow = (row) => {
   return {
-    objectId: row.id,
+    objectID: row.id,
     name: row.full_name,
     url: row.html_url,
     language: row.language.toLowerCase(),
