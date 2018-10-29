@@ -8,7 +8,7 @@ const reposIndex = client.initIndex(process.env.INDEX_NAME)
 const Algolia = {
   update (records) {
     const chunks = _.chunk(records, 200)
-    const promises = _.map(chunks, (chunk) => reposIndex.addObjects(chunk))
+    const promises = _.map(chunks, (chunk) => reposIndex.updateObjects(chunk))
 
     return Promise.all(promises)
   },
@@ -22,7 +22,7 @@ const Algolia = {
         'description'
       ],
       attributesForFaceting: [
-        'language',
+        'searchable(language)',
         'searchable(topics)'
       ],
       customRanking: [
