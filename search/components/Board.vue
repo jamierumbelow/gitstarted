@@ -2,7 +2,6 @@
   <section id="board" class="container">
     <div class="row" v-for="row in chunkedRepos">
       <div class="col col-md-4" v-for="(repo, i) in row">
-
         <div class="card" @click="clickCard(repo.url)">
           <h3 class="card-title">
             <span class="title">{{ repo.name.split('/')[1] }}</span>
@@ -14,7 +13,15 @@
           {{ repo.description }}
           <footer>{{ repo.name }}</footer>
         </div>
+      </div>
+    </div>
 
+    <div class="row" v-if="page * perPage < totalRepos">
+      <div class="col col-md-2 pagination">
+        <button class="button-primary" @click="loadMore">
+          <template v-if="loading"><span class="fa fa-spinner fa-spin"></span></template>
+          <template v-else>More</template>
+        </button>
       </div>
     </div>
   </section>
@@ -22,6 +29,8 @@
 
 <script>
 import _ from "lodash"
+
+const PER_PAGE = 20
 
 export default {
   props: {
@@ -36,15 +45,20 @@ export default {
   },
   data () {
     return {
-      hasLanguages: false,
+      page: 1,
+      totalRepos: 0,
+      loading: false,
+      initialLoad: false,
       hits: []
     }
   },
   mounted () {
     this.$algolia.on('result', (results) => {
       this.hits = results.hits
+      this.loading = false
+      this.totalRepos = results.nbHits
 
-      if (!this.hasLanguages) {
+      if (!this.initialLoad) {
         this.updateLanguages(results)
       }
     })
@@ -54,9 +68,12 @@ export default {
   methods: {
     reload () {
       this.$algolia.clearRefinements()
+
       if (this.language !== 'all') {
         this.$algolia.addFacetRefinement('language', this.language)
       }
+      this.$algolia.setQueryParameter('hitsPerPage', this.page * PER_PAGE)
+
       this.$algolia.setQuery(this.searchQuery)
       this.$algolia.search()
     },
@@ -65,7 +82,12 @@ export default {
       const list = _.get(languageFacet, 'data')
 
       this.$emit('updateLanguages', Object.keys(list))
-      this.hasLanguages = true
+      this.initialLoad = true
+    },
+    loadMore () {
+      this.loading = true
+      this.page = this.page + 1
+      this.reload()
     },
     clickCard (url) {
       window.open(url, '_blank').open()
@@ -89,6 +111,9 @@ export default {
         searchParameters.facetQuery = this.language
       }
       return searchParameters
+    },
+    perPage () {
+      return PER_PAGE
     }
   },
   watch: {
@@ -138,6 +163,16 @@ export default {
   &:hover {
     cursor: pointer;
     background: #fafafa;
+  }
+}
+
+.pagination {
+  margin: 25px auto 0 auto;
+
+  button {
+    font-size: 1.2em;
+    width: 100%;
+    height: 50px;
   }
 }
 </style>

@@ -32,7 +32,8 @@ const Algolia = {
       customRanking: [
         'desc(open_issues)',
         'desc(stars)'
-      ]
+      ],
+      paginationLimitedTo: 0
     })
   }
 }
