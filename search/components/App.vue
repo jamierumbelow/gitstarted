@@ -50,6 +50,14 @@ export default {
 <style lang="scss">
 header {
   max-height: 15rem;
+
+  h3 {
+    width: 90%;
+    margin-top: 15px;
+    text-align: center;
+    font-size: 1.5em;
+    line-height: 1.4;
+  }
 }
 
 .panel-outer {
